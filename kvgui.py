@@ -1,3 +1,6 @@
+# kvgui.py (main GUI script and controller, for now)
+# for PyQt5-keyboard-visualizer by lutet88
+
 import sys
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow
@@ -13,7 +16,8 @@ def createApplication():
 
 
 def switchModes(mode):
-    return {"none":0, "count":1, "name":2, "both":3}.get(mode.lower(), 0) # gets numeric value else default 0
+    # gets numeric value else default 0
+    return {"none":0, "count":1, "name":2, "both":3}.get(mode.lower(), 0)
 
 
 class MainGUI(QMainWindow):
@@ -25,8 +29,8 @@ class MainGUI(QMainWindow):
         self.createFonts()
         self.initTimer()
         self.initKeyboard()
-        print(displaymode)
-    
+        print("[KVGUI] GUI init complete. Application Launching...")
+
     def initVars(self):
         global tilesize, width, height, num_keys, keys, keyimage, keyimage_dark, keyimage_maps, \
             font, fontsize, fontcolor, backgroundcolor, displaymode, resetkey, pollingrate
@@ -56,6 +60,7 @@ class MainGUI(QMainWindow):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update)
         self.timer.start(pollingrate)
+        print("[KVGUI] Refresh timer started with interval "+str(pollingrate)+"ms")
 
     def createFonts(self):
         text_font = QFontDatabase.addApplicationFont(font)
@@ -68,7 +73,6 @@ class MainGUI(QMainWindow):
         self.show()
         self.timer.start(pollingrate)
 
-    # takes string argument color and appends color to stylesheet
     def setBGColor(self, color):
         self.setStyleSheet("background-color: " + color + ";")
 
@@ -103,7 +107,7 @@ class MainGUI(QMainWindow):
             self.keylabels[id] = q
             self.textlabels[id] = t
         else:
-            self.kl.setKeyCode(id, "f22")
+            self.kl.setKeyCode(id, None)
 
     def updateKeys(self):
         for id in range(len(keys)):
