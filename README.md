@@ -34,4 +34,4 @@ designed for me to practice pyQt5 skills
 ```
 
 ## known limitations
-mouse keyCodes don't work properly rn
+kinda laggy if you have tilesize too big

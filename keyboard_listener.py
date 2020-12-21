@@ -16,8 +16,9 @@ class KeyboardListener():
         self.pressed = [False for x in range(num_keys)]
         self.counts = [0 for x in range(num_keys)]
         self.reset = reset
-        print("[KeyboardListener] registered KeyboardListener at "+str(id(self)))
+        print("[KeyboardListener] created KeyboardListener at "+str(id(self)))
 
+    # TODO: Replace update with keyDown and keyUp functions using keyboard.on_button()
     def update(self):
         """Updates keyboard and mouse input."""
         for c in range(len(self.keyCodes)):
@@ -25,7 +26,8 @@ class KeyboardListener():
             if kc is None:
                 continue
             if "mouse_" in kc:
-                newstate = mouse.is_pressed(kc.replace("mouse_", ""))
+                continue
+                # newstate = mouse.is_pressed(kc.replace("mouse_", ""))
             else:
                 newstate = keyboard.is_pressed(kc)
             if self.pressed[c] != newstate and newstate is True:
@@ -37,17 +39,34 @@ class KeyboardListener():
     def getStates(self):
         return self.pressed
 
+    def mouseDown(self, id):
+        self.counts[id] += 1
+        self.pressed[id] = True
+
+    def mouseUp(self, id):
+        self.pressed[id] = False
+
     def setKeyCode(self, id, code):
         """Sets a keyCode for this KeyboardListener.
         Args:
             id: index of key in self.keyCodes
             code: desired keyCode
         """
-        self.keyCodes[id] = code
+        if "mouse_" in code:
+            code = code.replace("mouse_", "")
+            mouse.on_button(self.mouseDown, args=[id], buttons=[code], types=["down", "double"])
+            mouse.on_button(self.mouseUp, args=[id], buttons=[code], types=["up"])
+            print("[KeyboardListener] registered mouse keycode "+str(code))
+            self.keyCodes[id] = None
+        else:
+            print("[KeyboardListener] registered keyboard keycode "+str(code))
+            self.keyCodes[id] = code
 
     def getKeyCode(self, id):
         return self.keyCodes[id]
 
-    def addCount(self, id):
-        print(id)
-        self.counts[id] += 1;
+    def stopListening(self):
+        keyboard.unhook_all()
+        keyboard.unhook_all_hotkeys()
+        mouse.unhook_all()
+

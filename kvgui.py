@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap, QFont, QFontDatabase
 import config_parser
 import keyboard_listener
 
-version = "0.0.1b"
+version = "0.0.2a"
 
 
 def createApplication():
@@ -23,7 +23,9 @@ def switchModes(mode):
 class MainGUI(QMainWindow):
     # initialize GUI
     def __init__(self, *args, **kwargs):
+        print("[KVGUI] Initializing... (version v{version})".format(version=version))
         super(MainGUI, self).__init__(*args, **kwargs)
+        print("[KVGUI] QMainWindow initialized.")
         self.initVars()
         self.initGUI()
         self.createFonts()
@@ -121,3 +123,7 @@ class MainGUI(QMainWindow):
             text += "\n" if displaymode == 0b11 else ""
             text += str(self.kl.counts[id]) if displaymode & 0b01 else ""
             self.textlabels[id].setText(text)
+
+    def closeEvent(self, event):
+        self.kl.stopListening()
+        event.accept()
