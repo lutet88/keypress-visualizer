@@ -1,17 +1,20 @@
 {
-	"tilesize": 384,
+	"tilesize": 192,
 	
-	"windowwidth": 2,
-	"windowheight": 2,
+	"windowwidth": 3,
+	"windowheight": 1,
 	
 	"font":"Montserrat-Light.ttf",
-	"fontsize":90,
+	"fontsize":45,
 	"fontcolor":"rgb(0,0,0)",
 	
 	"backgroundcolor":"rgb(0,255,0)",
 	
 	"displaymode":"both",
 	
+	"resetkey":"alt+esc",
+	
+	"pollingratehz":50,
 	
 	"keyimage":"key1.png",
 	"keyimage_dark":"key1_dark.png",
@@ -20,24 +23,23 @@
 		{
 			"enabled": true,
 			"keyCode":"z",
-			"name":"z",
+			"name":"k1",
 			"x": 0,
 			"y": 0
 		}, 
 		{
 			"enabled": true,
 			"keyCode":"x",
-			"name":"x",
+			"name":"k2",
 			"x": 1,
 			"y": 0
 		},
 		{
 			"enabled": true,
-			"keyCode":"b",
-			"name":"b",
-			"x": 0.5,
-			"y": 1
-		},
-		{ "enabled" : false }
+			"keyCode":"mouse_left",
+			"name":"lmb",
+			"x": 2,
+			"y": 0
+		}
 	]
 }
