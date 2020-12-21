@@ -34,4 +34,5 @@ designed for me to practice pyQt5 skills
 ```
 
 ## known limitations
-kinda laggy if you have tilesize too big
+- kinda laggy if you have tilesize too big
+- for whatever reason closing it doesn't always work...???

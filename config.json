@@ -4,7 +4,7 @@
 	"windowwidth": 3,
 	"windowheight": 1,
 	
-	"font":"Montserrat-Light.ttf",
+	"font":"resources/Montserrat-Light.ttf",
 	"fontsize":45,
 	"fontcolor":"rgb(0,0,0)",
 	
@@ -16,8 +16,8 @@
 	
 	"pollingratehz":50,
 	
-	"keyimage":"key1.png",
-	"keyimage_dark":"key1_dark.png",
+	"keyimage":"resources/key1.png",
+	"keyimage_dark":"resources/key1_dark.png",
 	
 	"keys":[
 		{

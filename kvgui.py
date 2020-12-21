@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap, QFont, QFontDatabase
 import config_parser
 import keyboard_listener
 
-version = "0.0.2a"
+version = "0.0.2b"
 
 
 def createApplication():
@@ -125,5 +125,7 @@ class MainGUI(QMainWindow):
             self.textlabels[id].setText(text)
 
     def closeEvent(self, event):
+        print("[KVGUI] Stopping...")
         self.kl.stopListening()
         event.accept()
+        self.close()
