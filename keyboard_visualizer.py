@@ -8,7 +8,7 @@ import kvgui
 app = kvgui.createApplication()
 
 # define PyQt5 window
-config = "config2.yml"
+config = "config/config.yml"
 window = kvgui.MainGUI(config)
 
 # start application

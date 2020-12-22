@@ -7,12 +7,12 @@ designed for me to practice pyQt5 skills
 
 ## how to use
 1. install dependencies:
- `keyboard` `mouse` `pyQt5` `json`
-2. configure `config.json` (check the one I included for example) 
+ `keyboard` `mouse` `pyQt5` `pyyaml`
+2. configure `config/config.yml` (check the one I included for example) or use `config/fpsconfig.yml`
 3. run `python3 keyboard_visualizer.py`
 4. fix any errors if necessary since this probably won't work lol
 
-### config.json
+### config.yml
 ```
 "tilesize" - size of a single key tile
 "windowheight", "windowwidth" - width and height of the window, in tilesizes
@@ -35,4 +35,6 @@ designed for me to practice pyQt5 skills
 
 ## known limitations
 - kinda laggy if you have tilesize too big
+- does not crash properly if you enter invalid keycodes
 - for whatever reason closing it doesn't always work...???
+    - apparently even more so if you have more keys
