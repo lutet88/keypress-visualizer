@@ -12,7 +12,7 @@ designed for me to practice pyQt5 skills
 3. run `python3 keyboard_visualizer.py`
 4. fix any errors if necessary since this probably won't work lol
 
-### config.json
+### config.yml
 ```
 "tilesize" - size of a single key tile
 "windowheight", "windowwidth" - width and height of the window, in tilesizes
