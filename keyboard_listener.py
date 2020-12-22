@@ -19,6 +19,7 @@ class KeyboardListener():
         print("[KeyboardListener] created KeyboardListener at "+str(id(self)))
 
     # TODO: Replace update with keyDown and keyUp functions using keyboard.on_button()
+    # TODO: Note: this todo might break key combination functionality...
     def update(self):
         """Updates keyboard and mouse input."""
         for c in range(len(self.keyCodes)):

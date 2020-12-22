@@ -8,7 +8,7 @@ from PyQt5.QtGui import QPixmap, QFont, QFontDatabase
 import config_parser
 import keyboard_listener
 
-version = "0.0.2b"
+version = "0.0.2c"
 
 
 def createApplication():
@@ -22,21 +22,21 @@ def switchModes(mode):
 
 class MainGUI(QMainWindow):
     # initialize GUI
-    def __init__(self, *args, **kwargs):
+    def __init__(self, config, *args, **kwargs):
         print("[KVGUI] Initializing... (version v{version})".format(version=version))
         super(MainGUI, self).__init__(*args, **kwargs)
         print("[KVGUI] QMainWindow initialized.")
-        self.initVars()
+        self.initVars(config)
         self.initGUI()
         self.createFonts()
         self.initTimer()
         self.initKeyboard()
         print("[KVGUI] GUI init complete. Application Launching...")
 
-    def initVars(self):
+    def initVars(self, config):
         global tilesize, width, height, num_keys, keys, keyimage, keyimage_dark, keyimage_maps, \
             font, fontsize, fontcolor, backgroundcolor, displaymode, resetkey, pollingrate
-        v = config_parser.loadConfig()
+        v = config_parser.loadConfig(config)
         tilesize, width, height = v["tilesize"], v["windowwidth"], v["windowheight"]
         num_keys = width * height
         keys, keyimage, keyimage_dark = v["keys"], v["keyimage"], v["keyimage_dark"]
@@ -88,7 +88,7 @@ class MainGUI(QMainWindow):
     def addKey(self, id, key):
         if key["enabled"]:
             # enable keycode
-            self.kl.setKeyCode(id, key["keyCode"])
+            self.kl.setKeyCode(id, str(key["keyCode"]))
 
             # image element (background)
             q = QLabel(self)
@@ -119,7 +119,7 @@ class MainGUI(QMainWindow):
         if key["enabled"]:
             q = self.keylabels[id]
             q.setPixmap(keyimage_maps[1 if self.kl.pressed[id] else 0])
-            text = key["name"] if displaymode & 0b10 else ""
+            text = str(key["name"]) if displaymode & 0b10 else ""
             text += "\n" if displaymode == 0b11 else ""
             text += str(self.kl.counts[id]) if displaymode & 0b01 else ""
             self.textlabels[id].setText(text)

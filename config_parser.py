@@ -1,8 +1,8 @@
-import json
+import yaml
 
-def loadConfig():
-    config = open("config.json")
-    content = config.read()
+def loadConfig(config):
+    config = open(config)
+    content = config.read().replace("\t", "")
     config.close()
 
-    return json.loads(content)
+    return yaml.load(content, Loader=yaml.SafeLoader)
