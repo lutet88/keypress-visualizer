@@ -2,13 +2,13 @@
 # for PyQt5-keyboard-visualizer by lutet88
 
 import sys
-from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow
-from PyQt5.QtGui import QPixmap, QFont, QFontDatabase
+from PySide6.QtCore import Qt, QTimer
+from PySide6.QtWidgets import QApplication, QLabel, QMainWindow
+from PySide6.QtGui import QPixmap, QFont, QFontDatabase
 import config_parser
 import keyboard_listener
 
-version = "0.0.2c"
+version = "0.0.3a"
 
 
 def createApplication():
@@ -22,20 +22,24 @@ def switchModes(mode):
 
 class MainGUI(QMainWindow):
     # initialize GUI
-    def __init__(self, config, *args, **kwargs):
+    def __init__(self, config, app, *args, **kwargs):
         print("[KVGUI] Initializing... (version v{version})".format(version=version))
         super(MainGUI, self).__init__(*args, **kwargs)
         print("[KVGUI] QMainWindow initialized.")
+        self.app = app
         self.initVars(config)
         self.initGUI()
         self.createFonts()
-        self.initTimer()
         self.initKeyboard()
+        if cps_enable:
+            self.initCPS()
         print("[KVGUI] GUI init complete. Application Launching...")
+        self.initTimer()
 
     def initVars(self, config):
         global tilesize, width, height, num_keys, keys, keyimage, keyimage_dark, keyimage_maps, \
-            font, fontsize, fontcolor, backgroundcolor, displaymode, resetkey, pollingrate
+            font, fontsize, fontcolor, backgroundcolor, displaymode, resetkey, pollingrate, cps_enable, \
+            cps_x, cps_y
         v = config_parser.loadConfig(config)
         tilesize, width, height = v["tilesize"], v["windowwidth"], v["windowheight"]
         num_keys = width * height
@@ -46,6 +50,9 @@ class MainGUI(QMainWindow):
         displaymode = switchModes(v["displaymode"])
         resetkey = v["resetkey"]
         pollingrate = 1000 / v["pollingratehz"]
+        cps_enable = v["cps-enable"]
+        cps_x = v["cps-x"]
+        cps_y = v["cps-y"]
 
     def initGUI(self):
         self.setWindowTitle("keyboard visualizer v{version}".format(version=version))
@@ -68,10 +75,23 @@ class MainGUI(QMainWindow):
         text_font = QFontDatabase.addApplicationFont(font)
         self.text_font = QFont(QFontDatabase.applicationFontFamilies(text_font)[0], fontsize)
 
+    def initCPS(self):
+        cps = QLabel(self)
+        cps.setGeometry(0, 0, tilesize, tilesize)
+        cps.move(tilesize * cps_x, tilesize * cps_y)
+        cps.setAlignment(Qt.AlignCenter)
+        cps.setText("0")
+        cps.setFont(self.text_font)
+        cps.setStyleSheet("background-color: rgba(0,0,0,0); color : "+fontcolor+";")
+        self.cps = cps
+        print("[KVGUI] CPS system initialized")
+
     def update(self):
         self.timer.stop()
         self.kl.update()
         self.updateKeys()
+        if cps_enable:
+            self.updateCPS()
         self.show()
         self.timer.start(pollingrate)
 
@@ -124,8 +144,20 @@ class MainGUI(QMainWindow):
             text += str(self.kl.counts[id]) if displaymode & 0b01 else ""
             self.textlabels[id].setText(text)
 
+    def updateCPS(self):
+        self.cps.setText(f"{self.kl.updateCPS()}")
+
     def closeEvent(self, event):
         print("[KVGUI] Stopping...")
         self.kl.stopListening()
         event.accept()
         self.close()
+        self.app.quit()
+        exit()
+
+
+if __name__ == "__main__":
+    # test MainGUI
+    app = createApplication()
+    m = MainGUI("config/config.yml")
+    app.exec()

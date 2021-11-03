@@ -3,6 +3,7 @@
 
 import keyboard
 import mouse
+import time
 
 class KeyboardListener():
     """Keyboard Listener class."""
@@ -16,6 +17,7 @@ class KeyboardListener():
         self.pressed = [False for x in range(num_keys)]
         self.counts = [0 for x in range(num_keys)]
         self.reset = reset
+        self.event_queue = []
         print("[KeyboardListener] created KeyboardListener at "+str(id(self)))
 
     # TODO: Replace update with keyDown and keyUp functions using keyboard.on_button()
@@ -33,6 +35,7 @@ class KeyboardListener():
                 newstate = keyboard.is_pressed(kc)
             if self.pressed[c] != newstate and newstate is True:
                 self.counts[c] += 1
+                self.event_queue.append(time.time())
             self.pressed[c] = newstate
             if keyboard.is_pressed(self.reset):
                 self.counts = [0 for x in range(len(self.keyCodes))]
@@ -42,6 +45,7 @@ class KeyboardListener():
 
     def mouseDown(self, id):
         self.counts[id] += 1
+        self.event_queue.append(time.time())
         self.pressed[id] = True
 
     def mouseUp(self, id):
@@ -70,4 +74,10 @@ class KeyboardListener():
         keyboard.unhook_all()
         keyboard.unhook_all_hotkeys()
         mouse.unhook_all()
+
+    def updateCPS(self):
+        while self.event_queue and self.event_queue[0] < time.time() - 1:
+            self.event_queue.pop(0)
+        return len(self.event_queue)  # CPS
+
 

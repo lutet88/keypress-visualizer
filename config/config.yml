@@ -1,28 +1,38 @@
 tilesize: 192
-windowwidth: 3
+windowwidth: 5
 windowheight: 1
 font: resources/Montserrat-Light.ttf
 fontsize: 45
-fontcolor: 'rgb(0,0,0)'
-backgroundcolor: 'rgb(0,255,0)'
+fontcolor: 'rgb(255,255,255)'
+backgroundcolor: 'rgb(0,0,0)'
 displaymode: both
 resetkey: alt+g
-pollingratehz: 50
-keyimage: resources/key1.png
-keyimage_dark: resources/key1_dark.png
+pollingratehz: 250
+keyimage: resources/key1A_nobg.png
+keyimage_dark: resources/key1A_dark.png
 keys:
   - enabled: true
-    keyCode: z
-    name: k1
+    keyCode: x
+    name: x
     x: 0
     y: 0
   - enabled: true
-    keyCode: ctrl+c
-    name: k2
+    keyCode: c
+    name: c
     x: 1
     y: 0
   - enabled: true
-    keyCode: mouse_left
-    name: lmb
-    x: 2
+    keyCode: ','
+    name: ','
+    x: 3
     y: 0
+  - enabled: true
+    keyCode: '.'
+    name: '.'
+    x: 4
+    y: 0
+cps-enable: true
+cps-x: 2
+cps-y: 0
+
+
