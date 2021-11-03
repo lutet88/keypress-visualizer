@@ -1,16 +1,17 @@
 # pyQt5-keypress-visualizer
-simple keypress visualizer made with pyQt5
+simple keypress visualizer made with pyQt
 
-designed for me to practice pyQt5 skills
+originally designed for me to practice pyQt5 skills
+now I use it occasionally for recordings
 
-
+## dependencies
+```bash
+pip install keyboard mouse PySide6 pyyaml
+```
 
 ## how to use
-1. install dependencies:
- `keyboard` `mouse` `pyQt5` `pyyaml`
-2. configure `config/config.yml` (check the one I included for example) or use `config/fpsconfig.yml`
-3. run `python3 keyboard_visualizer.py`
-4. fix any errors if necessary since this probably won't work lol
+1. configure `config/config.yml` 
+2. run `python3 keyboard_visualizer.py`
 
 ### config.yml
 ```
@@ -31,10 +32,11 @@ designed for me to practice pyQt5 skills
     "name" - name shown
     "x" - x pos in tilesizes
     "y" - y pos in tilesizes
+"cps-enable" - enable CPS feature
+"cps-x" - x pos for CPS tile
+"cps-y" - y pos for CPS tile
 ```
 
 ## known limitations
 - kinda laggy if you have tilesize too big
 - does not crash properly if you enter invalid keycodes
-- for whatever reason closing it doesn't always work...???
-    - apparently even more so if you have more keys
